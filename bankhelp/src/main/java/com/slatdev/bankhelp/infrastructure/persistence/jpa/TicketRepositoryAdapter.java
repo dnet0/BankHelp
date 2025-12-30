@@ -22,6 +22,12 @@ public class TicketRepositoryAdapter implements TicketRepository {
 	}
 
 	@Override
+	public List<Ticket> getAllTickets() {
+		List<TicketEntity> ticketsEntity = jpaRepo.findAll();
+		return ticketsEntity.stream().map(TicketMapper::toDomain).toList();
+	}
+
+	@Override
 	public List<Ticket> findByUserId(UUID userId) {
 		List<TicketEntity> ticketsEntity = jpaRepo.findByUserId(userId);
 		return ticketsEntity.stream().map(TicketMapper::toDomain).toList();
