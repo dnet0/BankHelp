@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: bankhelp-postgress
+    environment:
+      POSTGRES_DB: bankhelp
+      POSTGRES_USER: bankhelp
+      POSTGRES_PASSWORD: bankhelp123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data	
+volumes:
+  pgdata:
