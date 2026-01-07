@@ -13,6 +13,8 @@ public class Ticket {
 	// Constructor:
 
 	public Ticket(UUID userId, String description) {
+		validateDescription(description);
+
 		this.id = UUID.randomUUID();
 		this.userId = userId;
 		this.description = description;
@@ -21,12 +23,18 @@ public class Ticket {
 	}
 
 	public Ticket(UUID id, UUID userId, String description, LocalDateTime createdAt, TicketStatus status) {
-		super();
+		validateDescription(description);
 		this.id = id;
 		this.userId = userId;
 		this.description = description;
 		this.createdAt = createdAt;
 		this.status = status;
+	}
+
+	private void validateDescription(String description) {
+		if (description == null || description.isBlank()) {
+			throw new IllegalArgumentException("La descripción no puede ser vacía");
+		}
 	}
 
 	// Metodos publicos:

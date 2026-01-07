@@ -1,4 +1,4 @@
-package com.slatdev.bankhelp.application;
+package com.slatdev.bankhelp.application.usecase;
 
 import java.util.UUID;
 
