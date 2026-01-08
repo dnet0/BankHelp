@@ -24,28 +24,34 @@ public class TicketController {
 
 	private CreateTicketUseCase createTicketUseCase;
 	private ListTicketUseCase listTicketUseCase;
+
 	public TicketController(TicketRepository repository) {
 		this.createTicketUseCase = new CreateTicketUseCase(repository);
 		this.listTicketUseCase = new ListTicketUseCase(repository);
 	}
-	
+
 	@PostMapping
 	public Ticket create(@RequestParam UUID userId, @RequestParam String description) {
-		log.info("[INICIO]: TicketController.create");
-		return createTicketUseCase.create(userId, description);
+		log.info("[TICKET][CREATE] Inicio");
+		Ticket ticket = createTicketUseCase.create(userId, description);
+		log.info("[TICKET][CREATE] Fin | idTicket={} | userId={}", ticket.getId(), ticket.getUserId());
+		return ticket;
 	}
-	
+
 	@GetMapping
-	public List<Ticket> getAllTickets(){
-		log.info("[INICIO]: TicketController.getAllTickets");
-		return listTicketUseCase.getAllTickets();
+	public List<Ticket> getAllTickets() {
+		log.info("[TICKET][GET_ALL_TICKETS] Inicio");
+		List<Ticket> tickets = listTicketUseCase.getAllTickets();
+		log.info("[TICKET][GET_ALL_TICKETS] Fin | total={}", tickets.size());
+		return tickets;
 	}
 
 	@GetMapping("/mine")
-	public List<Ticket> getMyTickets(@RequestParam UUID userId){
-		log.info("[INICIO]: TicketController.getAllTickets");
-		return listTicketUseCase.getTicketByUserId(userId);
+	public List<Ticket> getMyTickets(@RequestParam UUID userId) {
+		log.info("[TICKET][GET_MY_TICKETS] Inicio | userId={}", userId);
+		List<Ticket> tickets = listTicketUseCase.getTicketByUserId(userId);
+		log.info("[TICKET][GET_MY_TICKETS] Fin | userId={} | total={}", userId, tickets.size());
+		return tickets;
 	}
 
 }
-

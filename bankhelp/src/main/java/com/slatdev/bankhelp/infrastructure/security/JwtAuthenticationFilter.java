@@ -2,6 +2,7 @@ package com.slatdev.bankhelp.infrastructure.security;
 
 import java.io.IOException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +23,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
 	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 	private final HandlerExceptionResolver handlerExceptionResolver;
 	private final AuthTokenService authTokenService;
@@ -38,15 +38,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		log.info("[INICIO]: JwtAuthenticationFilter.doFilterInternal");
+		log.info("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Inicio");
 		String authHeader = request.getHeader("Authorization");
 		if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-			log.error("[INTERMADIO]: AuthenticationFilter.doFilterInternal autorizacion inexistente", request.getHeader("Authorization"));
-			filterChain.doFilter(request, response);	
+			log.warn("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Autorizacion inexistente");
+			filterChain.doFilter(request, response);
 			return;
 		}
 		try {
-
 			String jwt = authHeader.substring(7);
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -55,17 +54,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				UserDetails userdetails = jpaUserDetailService.loadUserByUsername(userName);
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userdetails,
 						null, userdetails.getAuthorities());
-				log.info("[INTERMADIO]: AuthenticationFilter.doFilterInternal autorizacion existente", userdetails);
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authToken);
+				String emailHash = DigestUtils.sha256Hex(userName);
+				log.info("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Fin | emailHash={} | resultado=OK",
+						emailHash);
 			}
 		} catch (Exception exception) {
-			log.error("Error al autenticar: ", exception);
+			log.info("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Error al autenticar el usuario");
 			handlerExceptionResolver.resolveException(request, response, authHeader, exception);
 		}
 		filterChain.doFilter(request, response);
-		
-		log.info("[FIN]: JwtAuthenticationFilter.doFilterInternal");
+
+		log.info("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Fin");
 	}
 
 }

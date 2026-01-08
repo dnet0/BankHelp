@@ -1,5 +1,8 @@
 package com.slatdev.bankhelp.infrastructure.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ import com.slatdev.bankhelp.infrastructure.web.request.RegisterRequest;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
+	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 	private final RegisterUserUseCase registerUserUseCase;
 	private final AuthenticateUserUseCase authenticateUserUseCase;
 
@@ -29,13 +32,20 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public String login(@RequestParam String email, @RequestParam String password) {
-		return authenticateUserUseCase.authenticate(email, password);
+		log.info("[AUTH][LOGIN] Inicio");
+		String token = authenticateUserUseCase.authenticate(email, password);
+		log.info("[AUTH][LOGIN] FIN | resultado=OK");
+		return token;
 	}
 
 	@PostMapping("/register")
 	public User register(@RequestBody RegisterRequest registerRequest) {
-		return registerUserUseCase.save(registerRequest.name(), registerRequest.email(), registerRequest.role(),
+		log.info("[AUTH][REGISTER] Inicio ");
+
+		User user = registerUserUseCase.save(registerRequest.name(), registerRequest.email(), registerRequest.role(),
 				registerRequest.password());
+		log.info("[AUTH][REGISTER] Fin | user.id={} ", user.getId(), user.getName(), user.getEmail(), user.getRole());
+		return user;
 	}
 
 }

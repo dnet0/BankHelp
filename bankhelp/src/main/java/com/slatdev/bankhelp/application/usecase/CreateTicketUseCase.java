@@ -2,11 +2,15 @@ package com.slatdev.bankhelp.application.usecase;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.slatdev.bankhelp.application.exception.TicketCreationException;
 import com.slatdev.bankhelp.domain.model.Ticket;
 import com.slatdev.bankhelp.domain.repository.TicketRepository;
 
 public class CreateTicketUseCase {
-
+	private static final Logger log = LoggerFactory.getLogger(CreateTicketUseCase.class);
 	private final TicketRepository ticketRepository;
 
 	public CreateTicketUseCase(TicketRepository ticketRepository) {
@@ -14,8 +18,18 @@ public class CreateTicketUseCase {
 	}
 
 	public Ticket create(UUID userId, String description) {
-		Ticket newticket = new Ticket(userId, description);
-		return ticketRepository.save(newticket);
+		log.info("[CREATE_TICKET_USE_CASE][CREATE] Inicio | userId={}", userId);
+		Ticket newTicket = new Ticket(userId, description);
+		Ticket savedTicket;
+		try {
+			savedTicket = ticketRepository.save(newTicket);
+			log.info("[CREATE_TICKET_USE_CASE][CREATE] Fin | idTicket={} | userId={}", savedTicket.getId(),
+					savedTicket.getUserId());
+			return savedTicket;
+		} catch (Exception exception) {
+			log.error("[CREATE_TICKET_USE_CASE][CREATE] Error al crear ticket | userId={}", userId, exception);
+			throw new TicketCreationException("Error al crear ticket para userId=" + userId, exception);
+		}
 	}
 
 }
