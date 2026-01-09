@@ -1,6 +1,7 @@
-package com.slatdev.bankhelp.infrastructure.persistence.jpa;
+package com.slatdev.bankhelp.infrastructure.persistence.jpa.mapper;
 
 import com.slatdev.bankhelp.domain.model.User;
+import com.slatdev.bankhelp.infrastructure.persistence.jpa.UserEntity;
 
 public class UserMapper {
 

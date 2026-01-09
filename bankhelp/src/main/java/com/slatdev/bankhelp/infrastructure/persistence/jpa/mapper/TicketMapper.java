@@ -1,6 +1,7 @@
-package com.slatdev.bankhelp.infrastructure.persistence.jpa;
+package com.slatdev.bankhelp.infrastructure.persistence.jpa.mapper;
 
 import com.slatdev.bankhelp.domain.model.Ticket;
+import com.slatdev.bankhelp.infrastructure.persistence.jpa.TicketEntity;
 
 public class TicketMapper {
 

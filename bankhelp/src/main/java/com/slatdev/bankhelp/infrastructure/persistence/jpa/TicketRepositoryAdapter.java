@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.slatdev.bankhelp.domain.model.Ticket;
 import com.slatdev.bankhelp.domain.repository.TicketRepository;
+import com.slatdev.bankhelp.infrastructure.persistence.jpa.mapper.TicketMapper;
 
 @Repository
 public class TicketRepositoryAdapter implements TicketRepository {

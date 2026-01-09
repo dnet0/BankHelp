@@ -1,4 +1,4 @@
-package com.slatdev.bankhelp.infrastructure.util;
+package com.slatdev.bankhelp.infrastructure.security.password;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;

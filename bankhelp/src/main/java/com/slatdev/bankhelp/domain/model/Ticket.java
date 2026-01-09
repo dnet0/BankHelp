@@ -3,6 +3,8 @@ package com.slatdev.bankhelp.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.slatdev.bankhelp.domain.exception.InvalidTicketException;
+
 public class Ticket {
 	// Atributos
 	private final UUID id;
@@ -33,7 +35,10 @@ public class Ticket {
 
 	private void validateDescription(String description) {
 		if (description == null || description.isBlank()) {
-			throw new IllegalArgumentException("La descripción no puede ser vacía");
+			throw new InvalidTicketException("La descripción no puede ser vacía");
+		}
+		if (description.length() > 500) {
+			throw new InvalidTicketException("La descripción no puede superar los 500 caracteres");
 		}
 	}
 
@@ -59,6 +64,9 @@ public class Ticket {
 	}
 
 	public void resolve() {
+		if (this.status == TicketStatus.RESOLVED) {
+			throw new InvalidTicketException("El ticket ya esta resuelto");
+		}
 		this.status = TicketStatus.RESOLVED;
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.repository.UserRepository;
+import com.slatdev.bankhelp.infrastructure.persistence.jpa.mapper.UserMapper;
 
 @Repository
 public class UserRepositoryAdapter implements UserRepository {

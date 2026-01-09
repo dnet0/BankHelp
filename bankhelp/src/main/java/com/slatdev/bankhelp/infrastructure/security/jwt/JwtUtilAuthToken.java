@@ -1,4 +1,4 @@
-package com.slatdev.bankhelp.infrastructure.util;
+package com.slatdev.bankhelp.infrastructure.security.jwt;
 
 import java.security.Key;
 import java.util.Date;
