@@ -1,4 +1,4 @@
-package com.slatdev.bankhelp.application.usecase;
+package com.slatdev.bankhelp.application.usecase.user;
 
 import java.util.Optional;
 

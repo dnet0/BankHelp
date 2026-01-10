@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.slatdev.bankhelp.application.usecase.CreateTicketUseCase;
-import com.slatdev.bankhelp.application.usecase.ListTicketUseCase;
+import com.slatdev.bankhelp.application.usecase.ticket.CreateTicketUseCase;
+import com.slatdev.bankhelp.application.usecase.ticket.ListTicketUseCase;
 import com.slatdev.bankhelp.domain.model.Ticket;
 import com.slatdev.bankhelp.domain.repository.TicketRepository;
 import com.slatdev.bankhelp.domain.repository.UserRepository;

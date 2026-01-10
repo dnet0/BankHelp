@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.slatdev.bankhelp.application.service.AuthTokenService;
 import com.slatdev.bankhelp.application.service.PasswordService;
-import com.slatdev.bankhelp.application.usecase.AuthenticateUserUseCase;
-import com.slatdev.bankhelp.application.usecase.RegisterUserUseCase;
+import com.slatdev.bankhelp.application.usecase.auth.AuthenticateUserUseCase;
+import com.slatdev.bankhelp.application.usecase.user.RegisterUserUseCase;
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.repository.UserRepository;
 import com.slatdev.bankhelp.infrastructure.web.mapper.UserResponseMapper;

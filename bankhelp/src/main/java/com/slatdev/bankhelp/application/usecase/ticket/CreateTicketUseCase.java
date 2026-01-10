@@ -1,4 +1,4 @@
-package com.slatdev.bankhelp.application.usecase;
+package com.slatdev.bankhelp.application.usecase.ticket;
 
 import java.util.UUID;
 
