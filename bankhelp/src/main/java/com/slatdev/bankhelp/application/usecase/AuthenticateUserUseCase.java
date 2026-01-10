@@ -1,5 +1,7 @@
 package com.slatdev.bankhelp.application.usecase;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +24,18 @@ public class AuthenticateUserUseCase {
 		this.passwordService = passwordService;
 	}
 
-	public String authenticate(String email, String password) {
+	public String authenticate(String email, String password) throws AuthenticationException {
 		log.info("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Inicio");
 		User user = userRepository.findByEmail(email).orElseThrow(() -> {
 			String emailHash = DigestUtils.sha256Hex(email);
 			log.info("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Usuario no reconcido, emailHash={}", emailHash);
-			return new IllegalArgumentException("Usuario no reconocido");
+			return new AuthenticationException("Credenciales invalidas");
 		});
 		if (!passwordService.checkPassword(user, password)) {
 			String emailHash = DigestUtils.sha256Hex(email);
-			log.warn("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Contraseña introducia incorrecta, emailHash={}",
+			log.warn("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Contraseña introducida incorrecta, emailHash={}",
 					emailHash);
-			throw new IllegalArgumentException("Validación fallida");
+			throw new AuthenticationException("Credenciales invalidas");
 		}
 		String token = authTokenService.generateToken(user);
 		log.info("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Fin | resultado=OK");

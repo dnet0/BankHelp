@@ -34,4 +34,5 @@ public class TicketRepositoryAdapter implements TicketRepository {
 		return ticketsEntity.stream().map(TicketMapper::toDomain).toList();
 	}
 
+
 }

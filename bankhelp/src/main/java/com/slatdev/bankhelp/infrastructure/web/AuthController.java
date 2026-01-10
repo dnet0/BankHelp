@@ -1,9 +1,12 @@
 package com.slatdev.bankhelp.infrastructure.web;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,11 @@ import com.slatdev.bankhelp.infrastructure.web.request.RegisterRequest;
 import com.slatdev.bankhelp.infrastructure.web.response.LoginResponse;
 import com.slatdev.bankhelp.infrastructure.web.response.RegisterResponse;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
+@Validated
 public class AuthController {
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 	private final RegisterUserUseCase registerUserUseCase;
@@ -33,9 +39,9 @@ public class AuthController {
 		this.registerUserUseCase = new RegisterUserUseCase(userRepository, passwordService);
 		this.authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, authTokenService, passwordService);
 	}
-
+	
 	@PostMapping("/login")
-	public LoginResponse login(@RequestBody LoginRequest request) {
+	public LoginResponse login(@Valid @RequestBody LoginRequest request) throws AuthenticationException {
 		log.info("[AUTH][LOGIN] Inicio");
 		String token = authenticateUserUseCase.authenticate(request.email(), request.password());
 		log.info("[AUTH][LOGIN] FIN | resultado=OK");
@@ -43,7 +49,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
+	public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
 		log.info("[AUTH][REGISTER] Inicio ");
 
 		User user = registerUserUseCase.save(request.name(), request.email(), request.role(), request.password());

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SpringDataTicketRepository extends JpaRepository<TicketEntity, UUID> {
 	List<TicketEntity> findByUserId(UUID userId);
+
 }

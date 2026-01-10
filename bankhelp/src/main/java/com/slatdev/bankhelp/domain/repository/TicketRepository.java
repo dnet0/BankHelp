@@ -10,6 +10,7 @@ public interface TicketRepository {
 	Ticket save(Ticket ticket);
 
 	List<Ticket> getAllTickets();
-	
+
 	List<Ticket> findByUserId(UUID userId);
+
 }

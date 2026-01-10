@@ -13,3 +13,7 @@ logging:
   level:
     org.springframework.security: TRACE
     org.springframework.security.web.access: DEBUG
+security:
+  jwt:
+    secret: "07UyvNjm5zOf20iGc0tzoBr1hWVtTNjQkJ0tQYDke7s"
+    expiration: 7200000 # 2 horas en milisegundos

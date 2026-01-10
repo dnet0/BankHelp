@@ -5,6 +5,6 @@ import java.util.UUID;
 
 import com.slatdev.bankhelp.domain.model.UserRole;
 
-public record RegisterResponse(UUID id, String name, String email, UserRole role, String passwordHash,
+public record RegisterResponse(UUID id, String name, String email, UserRole role,
 		LocalDateTime createdAt) {
 }

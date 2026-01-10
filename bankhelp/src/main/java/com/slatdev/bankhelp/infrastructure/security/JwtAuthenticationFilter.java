@@ -2,6 +2,8 @@ package com.slatdev.bankhelp.infrastructure.security;
 
 import java.io.IOException;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import com.slatdev.bankhelp.application.service.AuthTokenService;
 
@@ -24,13 +25,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-	private final HandlerExceptionResolver handlerExceptionResolver;
 	private final AuthTokenService authTokenService;
 	private final JpaUserDetailService jpaUserDetailService;
 
-	public JwtAuthenticationFilter(HandlerExceptionResolver handlerExceptionResolver, AuthTokenService authTokenService,
-			JpaUserDetailService jpaUserDetailService) {
-		this.handlerExceptionResolver = handlerExceptionResolver;
+	public JwtAuthenticationFilter(AuthTokenService authTokenService, JpaUserDetailService jpaUserDetailService) {
 		this.authTokenService = authTokenService;
 		this.jpaUserDetailService = jpaUserDetailService;
 	}
@@ -62,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 		} catch (Exception exception) {
 			log.info("[JWT_AUTHENTICATION_FILTER][DO_FILTER_INTERNAL] Error al autenticar el usuario");
-			handlerExceptionResolver.resolveException(request, response, authHeader, exception);
+			throw new AuthenticationException("Error al autenticar el usuario");
 		}
 		filterChain.doFilter(request, response);
 

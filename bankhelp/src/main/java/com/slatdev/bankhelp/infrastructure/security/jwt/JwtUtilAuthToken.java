@@ -1,7 +1,8 @@
 package com.slatdev.bankhelp.infrastructure.security.jwt;
 
-import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -10,32 +11,36 @@ import com.slatdev.bankhelp.domain.model.User;
 
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtilAuthToken implements AuthTokenService {
 
-	private static final Key KEY_SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-	private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 2; // Duracion dos horas(en ms)
+	private final JwtProperties properties;
+
+	public JwtUtilAuthToken(JwtProperties properties) {
+		this.properties = properties;
+	}
 
 	@Override
 	public String generateToken(User user) {
 		Date now = new Date();
-		Date expirationDate = new Date(now.getTime() + EXPIRATION_TIME);
-		return Jwts.builder().setSubject(user.getEmail()).setIssuedAt(now).setExpiration(expirationDate)
-				.signWith(KEY_SECRET).compact();
+		Date expirationDate = new Date(now.getTime() + this.properties.getExpiration());
+		Map<String, Object> claims = new HashMap<String, Object>();
+		claims.put("userId", user.getId().toString());
+		return Jwts.builder().setClaims(claims).setSubject(user.getEmail()).setIssuedAt(now)
+				.setExpiration(expirationDate).signWith(this.properties.getSecretKey()).compact();
 	}
 
 	@Override
 	public String extractUserName(String token) {
-		return Jwts.parserBuilder().setSigningKey(KEY_SECRET).build().parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parserBuilder().setSigningKey(this.properties.getSecretKey()).build().parseClaimsJws(token)
+				.getBody().getSubject();
 	}
 
 	@Override
 	public boolean isTokenValid(String token) {
 		try {
-			Jwts.parserBuilder().setSigningKey(KEY_SECRET).build().parseClaimsJws(token);
+			Jwts.parserBuilder().setSigningKey(this.properties.getSecretKey()).build().parseClaimsJws(token);
 			return true;
 		} catch (JwtException e) {
 			return false;

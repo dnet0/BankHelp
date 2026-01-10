@@ -17,7 +17,7 @@ public class BcryptVerifiedPassword implements PasswordService {
 
 	@Override
 	public String hashPassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 		
 		return encoder.encode(password);
 	}
