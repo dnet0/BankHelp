@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.slatdev.bankhelp.application.service.AuthTokenService;
-import com.slatdev.bankhelp.application.service.PasswordService;
 import com.slatdev.bankhelp.application.usecase.auth.AuthenticateUserUseCase;
 import com.slatdev.bankhelp.application.usecase.refreshtoken.CreateRefreshTokenUseCase;
 import com.slatdev.bankhelp.application.usecase.refreshtoken.ListRefreshTokenUseCase;
@@ -24,9 +22,6 @@ import com.slatdev.bankhelp.application.usecase.user.ListUserUseCase;
 import com.slatdev.bankhelp.application.usecase.user.RegisterUserUseCase;
 import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.model.User;
-import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
-import com.slatdev.bankhelp.domain.repository.UserRepository;
-import com.slatdev.bankhelp.infrastructure.security.jwt.RefreshTokenProperties;
 import com.slatdev.bankhelp.infrastructure.web.mapper.UserResponseMapper;
 import com.slatdev.bankhelp.infrastructure.web.request.LoginRequest;
 import com.slatdev.bankhelp.infrastructure.web.request.LogoutRequest;
@@ -50,15 +45,15 @@ public class AuthController {
 	private final ListRefreshTokenUseCase listRefreshTokenUseCase;
 	private final ListUserUseCase listUserUseCase;
 
-	public AuthController(UserRepository userRepository, AuthTokenService authTokenService,
-			PasswordService passwordService, RefreshTokenRepository refreshTokenRepository,
-			RefreshTokenProperties refreshTokenproperties) {
-		this.registerUserUseCase = new RegisterUserUseCase(userRepository, passwordService);
-		this.authenticateUserUseCase = new AuthenticateUserUseCase(userRepository, authTokenService, passwordService);
-		this.createRefreshTokenUseCase = new CreateRefreshTokenUseCase(refreshTokenRepository, refreshTokenproperties);
-		this.listUserUseCase = new ListUserUseCase(userRepository);
-		this.listRefreshTokenUseCase = new ListRefreshTokenUseCase(refreshTokenRepository);
-		this.updateRefreshTokenUseCase = new UpdateRefreshTokenUseCase(refreshTokenRepository);
+	public AuthController(RegisterUserUseCase registerUserUseCase, AuthenticateUserUseCase authenticateUserUseCase,
+			CreateRefreshTokenUseCase createRefreshTokenUseCase, UpdateRefreshTokenUseCase updateRefreshTokenUseCase,
+			ListRefreshTokenUseCase listRefreshTokenUseCase, ListUserUseCase listUserUseCase) {
+		this.registerUserUseCase = registerUserUseCase;
+		this.authenticateUserUseCase = authenticateUserUseCase;
+		this.createRefreshTokenUseCase = createRefreshTokenUseCase;
+		this.updateRefreshTokenUseCase = updateRefreshTokenUseCase;
+		this.listRefreshTokenUseCase = listRefreshTokenUseCase;
+		this.listUserUseCase = listUserUseCase;
 	}
 
 	@PostMapping("/login")

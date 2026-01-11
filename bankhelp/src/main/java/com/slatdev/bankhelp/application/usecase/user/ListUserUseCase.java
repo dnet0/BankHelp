@@ -6,12 +6,14 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
 import com.slatdev.bankhelp.application.exception.UserCreationException;
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.repository.UserRepository;
 
+@Service
 public class ListUserUseCase {
 	private static final Logger log = LoggerFactory.getLogger(RegisterUserUseCase.class);
 	private final UserRepository userRepository;

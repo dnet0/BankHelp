@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
 import com.slatdev.bankhelp.application.exception.RefreshTokenCreationException;
@@ -14,6 +15,7 @@ import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
 import com.slatdev.bankhelp.infrastructure.security.jwt.RefreshTokenProperties;
 
+@Service
 public class CreateRefreshTokenUseCase {
 	private static final Logger log = LoggerFactory.getLogger(CreateRefreshTokenUseCase.class);
 	private final RefreshTokenRepository refreshTokenRepository;

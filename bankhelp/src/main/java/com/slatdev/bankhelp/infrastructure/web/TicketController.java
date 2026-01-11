@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.slatdev.bankhelp.application.usecase.ticket.CreateTicketUseCase;
 import com.slatdev.bankhelp.application.usecase.ticket.ListTicketUseCase;
 import com.slatdev.bankhelp.domain.model.Ticket;
-import com.slatdev.bankhelp.domain.repository.TicketRepository;
-import com.slatdev.bankhelp.domain.repository.UserRepository;
 import com.slatdev.bankhelp.infrastructure.security.JwtAuthenticationFilter;
 import com.slatdev.bankhelp.infrastructure.web.mapper.TicketResponseMapper;
 import com.slatdev.bankhelp.infrastructure.web.request.CreateTicketRequest;
@@ -37,9 +35,9 @@ public class TicketController {
 	private CreateTicketUseCase createTicketUseCase;
 	private ListTicketUseCase listTicketUseCase;
 
-	public TicketController(TicketRepository repository, UserRepository userRepository) {
-		this.createTicketUseCase = new CreateTicketUseCase(repository);
-		this.listTicketUseCase = new ListTicketUseCase(repository, userRepository);
+	public TicketController(CreateTicketUseCase createTicketUseCase, ListTicketUseCase listTicketUseCase) {
+		this.createTicketUseCase = createTicketUseCase;
+		this.listTicketUseCase = listTicketUseCase;
 	}
 
 	@PostMapping

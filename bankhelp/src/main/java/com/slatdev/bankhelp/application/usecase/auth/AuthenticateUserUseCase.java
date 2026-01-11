@@ -5,12 +5,14 @@ import javax.security.sasl.AuthenticationException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.service.AuthTokenService;
 import com.slatdev.bankhelp.application.service.PasswordService;
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.repository.UserRepository;
 
+@Service
 public class AuthenticateUserUseCase {
 	private static final Logger log = LoggerFactory.getLogger(AuthenticateUserUseCase.class);
 	private final UserRepository userRepository;
