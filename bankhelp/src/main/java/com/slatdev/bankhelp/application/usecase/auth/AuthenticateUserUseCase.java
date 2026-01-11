@@ -41,5 +41,17 @@ public class AuthenticateUserUseCase {
 		log.info("[AUTHENTICATE_USER_USE_CASE][AUTHENTICATE] Fin | resultado=OK");
 		return token;
 	}
+	public String generateAccessToken(String email) throws AuthenticationException {
+		log.info("[AUTHENTICATE_USER_USE_CASE][UPDATE_TOKEN] Inicio");
+		User user = userRepository.findByEmail(email).orElseThrow(() -> {
+			String emailHash = DigestUtils.sha256Hex(email);
+			log.info("[AUTHENTICATE_USER_USE_CASE][UPDATE_TOKEN] Usuario no reconcido, emailHash={}", emailHash);
+			return new AuthenticationException("Credenciales invalidas");
+		});
+
+		String token = authTokenService.generateToken(user);
+		log.info("[AUTHENTICATE_USER_USE_CASE][UPDATE_TOKEN] Fin | resultado=OK");
+		return token;
+	}
 
 }

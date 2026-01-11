@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "security.refresh-token.expirationdays",
+  "type": "java.lang.String",
+  "description": "Valores para las propiedades de refreshToken"
+}]}

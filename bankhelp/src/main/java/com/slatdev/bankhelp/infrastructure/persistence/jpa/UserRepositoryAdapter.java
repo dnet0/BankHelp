@@ -1,6 +1,7 @@
 package com.slatdev.bankhelp.infrastructure.persistence.jpa;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,11 @@ public class UserRepositoryAdapter implements UserRepository {
 	@Override
 	public Optional<User> findByEmail(String email) {
 		return jpaRepo.findByEmail(email).map(UserMapper::toDomain);
+	}
+
+	@Override
+	public Optional<User> findById(UUID id) {
+		return jpaRepo.findById(id).map(UserMapper::toDomain);
 	}
 
 }

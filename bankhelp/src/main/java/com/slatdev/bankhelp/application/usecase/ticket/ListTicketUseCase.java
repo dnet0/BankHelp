@@ -59,7 +59,7 @@ public class ListTicketUseCase {
 		String emailHash = DigestUtils.sha256Hex(userEmail);
 		try {
 			User user = userRepository.findByEmail(userEmail).orElseThrow(() -> {
-				log.info("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Usuario no reconcido, emailHash={}", emailHash);
+				log.warn("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Usuario no reconcido, emailHash={}", emailHash);
 				return new IllegalArgumentException("Usuario no reconocido");
 			});
 			UUID userId = user.getId();

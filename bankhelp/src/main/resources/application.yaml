@@ -16,4 +16,6 @@ logging:
 security:
   jwt:
     secret: "07UyvNjm5zOf20iGc0tzoBr1hWVtTNjQkJ0tQYDke7s"
-    expiration: 7200000 # 2 horas en milisegundos
+    expiration: 900000 # 15 minutos en milisegundos
+  refresh-token:
+    expiration-days: 7 # 7 días		
