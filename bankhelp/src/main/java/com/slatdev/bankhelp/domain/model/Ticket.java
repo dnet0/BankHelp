@@ -3,7 +3,10 @@ package com.slatdev.bankhelp.domain.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.slatdev.bankhelp.domain.exception.InvalidTicketException;
+import com.slatdev.bankhelp.domain.exception.rules.InvalidTicketAlreadyResolvedException;
+import com.slatdev.bankhelp.domain.exception.validation.InvalidTicketDescriptionException;
+import com.slatdev.bankhelp.domain.exception.validation.InvalidTicketIdException;
+import com.slatdev.bankhelp.domain.exception.validation.InvalidTicketUserIdException;
 
 public class Ticket {
 	// Atributos
@@ -12,20 +15,14 @@ public class Ticket {
 	private final String description;
 	private final LocalDateTime createdAt;
 	private TicketStatus status;
+
 	// Constructor:
-
 	public Ticket(UUID userId, String description) {
-		validateDescription(description);
-
-		this.id = UUID.randomUUID();
-		this.userId = userId;
-		this.description = description;
-		this.createdAt = LocalDateTime.now();
-		this.status = TicketStatus.OPEN;
+		this(UUID.randomUUID(), userId, description, LocalDateTime.now(), TicketStatus.OPEN);
 	}
 
 	public Ticket(UUID id, UUID userId, String description, LocalDateTime createdAt, TicketStatus status) {
-		validateDescription(description);
+		validateTicket(id, userId, description, createdAt);
 		this.id = id;
 		this.userId = userId;
 		this.description = description;
@@ -33,12 +30,30 @@ public class Ticket {
 		this.status = status;
 	}
 
+	public void validateTicket(UUID id, UUID userId, String description, LocalDateTime createdAt) {
+		validateId(id);
+		validateUserId(userId);
+		validateDescription(description);
+	}
+
+	private static void validateId(UUID id) {
+		if (id == null) {
+			throw new InvalidTicketIdException("El ID del refresh token no puede ser null");
+		}
+	}
+
+	private static void validateUserId(UUID userId) {
+		if (userId == null) {
+			throw new InvalidTicketUserIdException("El userId del refresh token es obligatorio");
+		}
+	}
+
 	private void validateDescription(String description) {
 		if (description == null || description.isBlank()) {
-			throw new InvalidTicketException("La descripción no puede ser vacía");
+			throw new InvalidTicketDescriptionException("La descripción no puede ser vacía");
 		}
 		if (description.length() > 500) {
-			throw new InvalidTicketException("La descripción no puede superar los 500 caracteres");
+			throw new InvalidTicketDescriptionException("La descripción no puede superar los 500 caracteres");
 		}
 	}
 
@@ -65,7 +80,7 @@ public class Ticket {
 
 	public void resolve() {
 		if (this.status == TicketStatus.RESOLVED) {
-			throw new InvalidTicketException("El ticket ya esta resuelto");
+			throw new InvalidTicketAlreadyResolvedException("El ticket ya esta resuelto");
 		}
 		this.status = TicketStatus.RESOLVED;
 	}

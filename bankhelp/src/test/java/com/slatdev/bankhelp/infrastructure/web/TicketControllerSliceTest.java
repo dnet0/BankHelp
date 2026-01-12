@@ -70,11 +70,7 @@ public class TicketControllerSliceTest {
 		when(listTicketUseCase.getAllTickets()).thenReturn(tickets);
 
 		// Act
-		mockMvc.perform(get("/api/tickets").contentType(MediaType.APPLICATION_JSON).content("""
-				{
-					"refreshToken": "83435065-4f30-4941-ad9d-dc8f497f3574"
-				}
-				""")).andExpect(status().isOk());
+		mockMvc.perform(get("/api/tickets").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
 		// Verifica que los casos de uso fueron llamados correctamente
 		verify(listTicketUseCase).getAllTickets();

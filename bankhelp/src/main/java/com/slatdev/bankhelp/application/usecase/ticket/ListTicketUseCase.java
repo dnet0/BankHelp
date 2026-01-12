@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
+import com.slatdev.bankhelp.application.exception.user.UserNotFoundException;
 import com.slatdev.bankhelp.domain.model.Ticket;
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.repository.TicketRepository;
@@ -35,9 +36,6 @@ public class ListTicketUseCase {
 		} catch (DataAccessException ex) {
 			log.error("[LIST_TICKET_USE_CASE][GET_ALL_TICKETS] Error de backend", ex);
 			throw new InternalServerErrorException("Error interno al listar tickets", ex);
-		} catch (Exception ex) {
-			log.error("[LIST_TICKET_USE_CASE][GET_ALL_TICKETS] Error inesperado", ex);
-			throw new InternalServerErrorException("Error inesperado al listar tickets", ex);
 		}
 	}
 
@@ -50,9 +48,6 @@ public class ListTicketUseCase {
 		} catch (DataAccessException ex) {
 			log.error("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Error de backend | userId={}", userId, ex);
 			throw new InternalServerErrorException("Error interno al obtener tickets para userId=" + userId, ex);
-		} catch (Exception ex) {
-			log.error("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Error inesperado | userId={}", userId, ex);
-			throw new InternalServerErrorException("Error inesperado al obtener tickets para userId=" + userId, ex);
 		}
 	}
 
@@ -62,7 +57,7 @@ public class ListTicketUseCase {
 		try {
 			User user = userRepository.findByEmail(userEmail).orElseThrow(() -> {
 				log.warn("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Usuario no reconcido, emailHash={}", emailHash);
-				return new IllegalArgumentException("Usuario no reconocido");
+				return new UserNotFoundException("Usuario no reconocido");
 			});
 			UUID userId = user.getId();
 			List<Ticket> tickets = ticketRepository.findByUserId(userId);
@@ -71,10 +66,6 @@ public class ListTicketUseCase {
 		} catch (DataAccessException ex) {
 			log.error("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Error de backend | emailHash={}", emailHash, ex);
 			throw new InternalServerErrorException("Error interno al obtener tickets para emailHash=" + emailHash, ex);
-		} catch (Exception ex) {
-			log.error("[LIST_TICKET_USE_CASE][GET_TICKET_BY_USERID] Error inesperado | emailHash={}", emailHash, ex);
-			throw new InternalServerErrorException("Error inesperado al obtener tickets para emailHash=" + emailHash,
-					ex);
 		}
 	}
 

@@ -76,7 +76,7 @@ public class AuthControllerSliceTest {
 					"email": "test@example.com",
 					"password" : "Prueba1234*"
 				}
-				""")).andExpect(status().isOk()).andExpect(jsonPath("$.accesstoken").value("ACCESS_TOKEN"))
+				""")).andExpect(status().isOk()).andExpect(jsonPath("$.accessToken").value("ACCESS_TOKEN"))
 				.andExpect(jsonPath("$.refreshToken").value(refreshTokenId.toString()));
 
 		// Verifica que los casos de uso fueron llamados correctamente

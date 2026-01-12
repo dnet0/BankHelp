@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
-import com.slatdev.bankhelp.application.exception.RefreshTokenDeleteException;
+import com.slatdev.bankhelp.application.exception.refreshToken.RefreshTokenNotFoundException;
 import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
 
@@ -24,7 +24,7 @@ public class DeleteRefreshTokenUseCase {
 		try {
 			RefreshToken refresToken = refreshTokenRepository.findByUserId(id).orElseThrow(() -> {
 				log.warn("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_ID] Usuario no reconcido, userId={}", id);
-				return new IllegalArgumentException("RefreshToken no reconocido");
+				return new RefreshTokenNotFoundException("RefreshToken no reconocido");
 			});
 			refreshTokenRepository.delete(refresToken);
 		} catch (DataAccessException exception) {
@@ -32,10 +32,6 @@ public class DeleteRefreshTokenUseCase {
 					exception);
 			throw new InternalServerErrorException("Error interno al eliminar el refreshToken para id=" + id,
 					exception);
-		} catch (Exception exception) {
-			log.error("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_ID] Error al eliminar el refreshToken | id={}", id,
-					exception);
-			throw new RefreshTokenDeleteException("Error al eliminar el refreshToken para id=" + id, exception);
 		}
 		log.info("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_ID] Fin | userId={} | resultado=OK", id);
 	}
@@ -45,7 +41,7 @@ public class DeleteRefreshTokenUseCase {
 		try {
 			RefreshToken refresToken = refreshTokenRepository.findByUserId(userId).orElseThrow(() -> {
 				log.warn("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_USERID] Usuario no reconcido, userId={}", userId);
-				return new IllegalArgumentException("RefresToken no reconocido");
+				return new RefreshTokenNotFoundException("RefresToken no reconocido");
 			});
 			refreshTokenRepository.delete(refresToken);
 		} catch (DataAccessException exception) {
@@ -53,10 +49,6 @@ public class DeleteRefreshTokenUseCase {
 					userId, exception);
 			throw new InternalServerErrorException("Error interno al eliminar el refreshToken para userId=" + userId,
 					exception);
-		} catch (Exception exception) {
-			log.error("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_USERID] Error al eliminar el refreshToken | userId={}",
-					userId, exception);
-			throw new RefreshTokenDeleteException("Error al eliminar el refreshToken para userId=" + userId, exception);
 		}
 		log.info("[DELETE_REFRESH_TOKEN_USE_CASE][DELETE_BY_USERID] Fin | userId={} | resultado=OK", userId);
 	}

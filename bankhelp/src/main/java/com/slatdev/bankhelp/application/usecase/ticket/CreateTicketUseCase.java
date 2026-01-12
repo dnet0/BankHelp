@@ -8,7 +8,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
-import com.slatdev.bankhelp.application.exception.TicketCreationException;
 import com.slatdev.bankhelp.domain.model.Ticket;
 import com.slatdev.bankhelp.domain.repository.TicketRepository;
 
@@ -33,9 +32,6 @@ public class CreateTicketUseCase {
 		} catch (DataAccessException exception) {
 			log.error("[CREATE_TICKET_USE_CASE][CREATE] Error interno al crear ticket | userId={}", userId, exception);
 			throw new InternalServerErrorException("Error interno al crear ticket para userId=" + userId, exception);
-		} catch (Exception exception) {
-			log.error("[CREATE_TICKET_USE_CASE][CREATE] Error al crear ticket | userId={}", userId, exception);
-			throw new TicketCreationException("Error al crear ticket para userId=" + userId, exception);
 		}
 	}
 

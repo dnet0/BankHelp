@@ -6,7 +6,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
-import com.slatdev.bankhelp.application.exception.RefreshTokenCreationException;
 import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
 
@@ -31,9 +30,7 @@ public class UpdateRefreshTokenUseCase {
 					exception);
 			throw new InternalServerErrorException("Error interno al revocar el refreshToken", exception);
 
-		} catch (Exception exception) {
-			log.error("[UPDATE_REFRESH_TOKEN_USE_CASE][UPDATE_TO_REVOKE] Error al revocar el refreshToken", exception);
-			throw new RefreshTokenCreationException("Error al revocar el refreshToken", exception);
 		}
+
 	}
 }

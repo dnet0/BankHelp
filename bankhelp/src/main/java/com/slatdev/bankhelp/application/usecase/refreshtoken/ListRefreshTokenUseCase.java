@@ -8,7 +8,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
-import com.slatdev.bankhelp.application.exception.InvalidRefreshTokenException;
+import com.slatdev.bankhelp.application.exception.refreshToken.RefreshTokenListException;
+import com.slatdev.bankhelp.application.exception.refreshToken.RefreshTokenNotFoundException;
 import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
 
@@ -26,7 +27,7 @@ public class ListRefreshTokenUseCase {
 		try {
 			RefreshToken refreshToken = refreshTokenRepository.findById(id).orElseThrow(() -> {
 				log.warn("[LIST_REFRESHTOKEN_USE_CASE][GET_REFRESHTOKEN_BY_ID] Intento de busquedad fallido");
-				throw new InvalidRefreshTokenException("No se ha encontrado el refreshToken");
+				throw new RefreshTokenNotFoundException("No se ha encontrado el refreshToken");
 			});
 			log.info("[LIST_REFRESHTOKEN_USE_CASE][GET_REFRESHTOKEN_BY_ID] Fin");
 			return refreshToken;
@@ -34,7 +35,7 @@ public class ListRefreshTokenUseCase {
 			log.error(
 					"[LIST_REFRESHTOKEN_USE_CASE][GET_REFRESHTOKEN_BY_ID] Error inesperado al obtener el refreshToken",
 					ex);
-			throw new InternalServerErrorException("Error inesperado al obtener el refreshToken", ex);
+			throw new RefreshTokenListException("Error inesperado al obtener el refreshToken", ex);
 		}
 	}
 
@@ -43,10 +44,10 @@ public class ListRefreshTokenUseCase {
 		try {
 			RefreshToken refreshToken = refreshTokenRepository.findById(id).orElseThrow(() -> {
 				log.warn("[LIST_REFRESHTOKEN_USE_CASE][GET_REFRESHTOKEN_VALIDATED_BY_ID] Intento de busquedad fallido");
-				throw new InvalidRefreshTokenException("No se ha encontrado el refreshToken");
+				throw new RefreshTokenNotFoundException("No se ha encontrado el refreshToken");
 			});
 			if (!refreshToken.isActive()) {
-				throw new InvalidRefreshTokenException("El refresh token ya está expirado o revocado");
+				throw new RefreshTokenListException("El refresh token ya está expirado o revocado");
 			}
 			log.info("[LIST_REFRESHTOKEN_USE_CASE][GET_REFRESHTOKEN_VALIDATED_BY_ID] Fin");
 			return refreshToken;

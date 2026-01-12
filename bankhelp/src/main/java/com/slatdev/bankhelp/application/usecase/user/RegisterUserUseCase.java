@@ -9,7 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
-import com.slatdev.bankhelp.application.exception.UserCreationException;
+import com.slatdev.bankhelp.application.exception.user.UserCreationException;
 import com.slatdev.bankhelp.application.service.PasswordService;
 import com.slatdev.bankhelp.domain.model.User;
 import com.slatdev.bankhelp.domain.model.UserRole;

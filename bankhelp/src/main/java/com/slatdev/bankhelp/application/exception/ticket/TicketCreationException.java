@@ -1,6 +1,8 @@
-package com.slatdev.bankhelp.application.exception;
+package com.slatdev.bankhelp.application.exception.ticket;
 
-public class TicketCreationException extends RuntimeException {
+import com.slatdev.bankhelp.application.exception.AplicationValidationException;
+
+public class TicketCreationException extends AplicationValidationException {
 	private static final long serialVersionUID = 1L;
 
 	public TicketCreationException(String message) {

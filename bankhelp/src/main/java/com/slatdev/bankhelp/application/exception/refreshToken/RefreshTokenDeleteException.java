@@ -1,6 +1,8 @@
-package com.slatdev.bankhelp.application.exception;
+package com.slatdev.bankhelp.application.exception.refreshToken;
 
-public class RefreshTokenDeleteException extends RuntimeException {
+import com.slatdev.bankhelp.application.exception.AplicationSecurityException;
+
+public class RefreshTokenDeleteException extends AplicationSecurityException {
 	private static final long serialVersionUID = 1L;
 
 	public RefreshTokenDeleteException(String message) {
