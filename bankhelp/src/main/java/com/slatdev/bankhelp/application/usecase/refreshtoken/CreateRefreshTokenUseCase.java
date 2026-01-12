@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.slatdev.bankhelp.application.config.RefreshTokenProperties;
 import com.slatdev.bankhelp.application.exception.InternalServerErrorException;
 import com.slatdev.bankhelp.application.exception.refreshToken.RefreshTokenCreationException;
 import com.slatdev.bankhelp.domain.model.RefreshToken;
 import com.slatdev.bankhelp.domain.repository.RefreshTokenRepository;
-import com.slatdev.bankhelp.infrastructure.security.jwt.RefreshTokenProperties;
 
 @Service
 public class CreateRefreshTokenUseCase {

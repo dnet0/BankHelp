@@ -15,9 +15,9 @@ import io.jsonwebtoken.Jwts;
 @Component
 public class JwtUtilAuthToken implements AuthTokenService {
 
-	private final JwtProperties properties;
+	private final JwtAccesTokenProperties properties;
 
-	public JwtUtilAuthToken(JwtProperties properties) {
+	public JwtUtilAuthToken(JwtAccesTokenProperties properties) {
 		this.properties = properties;
 	}
 

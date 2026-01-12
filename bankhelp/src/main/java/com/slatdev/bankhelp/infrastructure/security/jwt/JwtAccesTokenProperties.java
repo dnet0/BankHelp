@@ -5,18 +5,22 @@ import java.security.Key;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import com.slatdev.bankhelp.application.config.AccesTokenProperties;
+
 import io.jsonwebtoken.security.Keys;
 
 @Component
 @ConfigurationProperties(prefix = "security.jwt")
-public class JwtProperties {
+public class JwtAccesTokenProperties implements AccesTokenProperties{
 	private String secret;
 	private long expiration;
 
+	@Override
 	public Key getSecretKey() {
 		return Keys.hmacShaKeyFor(secret.getBytes());
 	}
-
+	
+	@Override
 	public String getSecret() {
 		return secret;
 	}
@@ -25,6 +29,7 @@ public class JwtProperties {
 		this.secret = secret;
 	}
 
+	@Override
 	public long getExpiration() {
 		return expiration;
 	}
