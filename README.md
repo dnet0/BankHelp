@@ -111,4 +111,3 @@ MIT License
 ### Contacto
 - Johan Sebastian Salvatierra Gutierrez
 - [LinkedIn](https://www.linkedin.com/in/johansalgut/)
-- [Email](https://slatportafolio.netlify.app/)
