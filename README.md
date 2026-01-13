@@ -62,13 +62,6 @@ docker-compose up -d
 | GET    | /api/tickets       | Listar todos (solo AGENT)      | JWT            |
 | GET    | /api/tickets/mine  | Mis tickets                    | JWT            |
 
-### Decisiones arquitectónicas destacadas
-  - **Domain aislado**: entidades con comportamiento (`resolve()` en Ticket) y excepciones expresivas (`InvalidTicketDescriptionException`, `InvalidTicketAlreadyResolvedException`)
-  - **Validaciones separadas**: `DomainInputException` (datos mal formados) vs `DomainRuleException` (invariantes rotos)
-  - **NotFound y errores técnicos**: en capa de aplicación (no contaminan el dominio)
-  - **Configs como puertos**: `AccesTokenProperties` y `RefreshTokenProperties` en application para evitar dependencias inversas
-  - **Testing sólido**: slices de controladores + integración real con PostgreSQL
-
 ### Próximos pasos / ideas de ampliación
   - Añadir Swagger/OpenAPI
   - Roles más granulares + permisos por acción
@@ -99,7 +92,7 @@ El foco está en calidad de código, escalabilidad y buenas prácticas, más que
 
 - **Testing sólido**  
   Slices de controladores + integración end-to-end con Testcontainers y PostgreSQL real.  
-  Cobertura global del **72.6%** (100% en la capa de tests), con foco en casos reales y no solo happy path.
+  Cobertura global del **72.6%** (con un 100% de cobertura en la capa de tests).
 
   <p align="center">
     <img src="docs/images/cobertura-tests.png" alt="Cobertura de tests" width="800"/>
