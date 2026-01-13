@@ -36,10 +36,10 @@ src/main/java/com/slatdev/bankhelp
 │   ├── usecase
 |   └── service
 └── infrastructure             ← adaptadores (JPA, controllers, security filters)
-├── exception           ← handler global
-├── persistence         ← JPA entities + adapters
-├── security
-└── web                 ← controllers + DTOs
+    ├── exception           ← handler global
+    ├── persistence         ← JPA entities + adapters
+    ├── security
+    └── web                 ← controllers + DTOs
 ```
 ### Instalación y ejecución rápida
 
